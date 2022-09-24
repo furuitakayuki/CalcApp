@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         when (v.id) {
             R.id.button1 -> {
-                if (editText.length() == 0 && editText2.length() == 0){
+                if (editText.length() == 0 || editText2.length() == 0){
                     showAlertDialog()
                 } else {
                     i = editText.text.toString().toDouble() + editText2.text.toString().toDouble()
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.button2 -> {
-                if (editText.length() == 0 && editText2.length() == 0){
+                if (editText.length() == 0 || editText2.length() == 0){
                     showAlertDialog()
                 } else {
                     i = editText.text.toString().toDouble() - editText2.text.toString().toDouble()
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.button3 -> {
-                if (editText.length() == 0 && editText2.length() == 0){
+                if (editText.length() == 0 || editText2.length() == 0){
                     showAlertDialog()
                 } else {
                     i = editText.text.toString().toDouble() * editText2.text.toString().toDouble()
@@ -51,9 +51,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.button4 -> {
-                if (editText.length() == 0 && editText2.length() == 0){
+                if (editText.length() == 0 || editText2.length() == 0){
                     showAlertDialog()
-                } else {
+                } else if (editText.getText().toString().equals("0") || editText2.getText().toString().equals("0")){
+                    showAlertDialog()
+                } else{
                     i = editText.text.toString().toDouble() / editText2.text.toString().toDouble()
                     intent.putExtra("VALUE1", i)
                     startActivity(intent)
@@ -66,8 +68,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showAlertDialog() {
         val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage("何か数値を入力してください")
-        alertDialogBuilder.setPositiveButton("閉じる"){dialog, which ->
+        if (editText.length() == 0 || editText2.length() == 0) {
+            alertDialogBuilder.setMessage("何か数値を入力してください")
+            alertDialogBuilder.setPositiveButton("閉じる") { dialog, which ->
+            }
+        } else {
+            alertDialogBuilder.setMessage("0での割り算はできません。")
+            alertDialogBuilder.setPositiveButton("閉じる") { dialog, which ->
+            }
         }
 
         val alertDialog = alertDialogBuilder.create()
